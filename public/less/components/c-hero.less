@@ -1,0 +1,32 @@
+.c-hero {
+
+	&__title {
+		font-size: 14.583vw;
+		.lh(306, 280);
+		font-family: @sec-font;
+		letter-spacing: -.015em;
+	}
+
+	&__subtitle {
+		margin-bottom: round(25/20em, 3);
+		.fz(20, 27);
+		font-weight: 300;
+		color: #2b3334;
+
+		@media screen and (max-width: 1368px) {
+			.fz(18, 24);
+		}
+
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+	}
+
+	.c-content__wrapper {
+		position: absolute;
+		top: 50%;
+		left: 15.625%;
+		transform: translateY(-50%);
+		width: 39.583%;
+	}
+}

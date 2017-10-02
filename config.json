@@ -1,0 +1,26 @@
+{
+	"devStatic": "/",
+	"buildStatic": "",
+	"buildDir": "build",
+	"port": 8080,
+	"dpe": false,
+	"commonData": ["data"],
+	"defaultLayout": "layout.html", 
+	"emptyLayout": "empty_layout.html", 
+	"contentOnly": false,
+	"storage": "https://your-path-to-blob",
+	"buildIgnore": ["less", "javascripts/sources"],
+	"assetsHash": true,
+	"pages": [
+		{
+			"name": "index",
+			"route": "/",
+			"pageData": ["index"],
+			"pageVars": {
+				"title": "Заголовок страницы",
+				"description": "Описание страницы",
+				"og": true
+			}
+		}
+	]
+}

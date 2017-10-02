@@ -1,0 +1,35 @@
+.c-pagination {
+	position: absolute;
+	z-index: 3;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 60px;
+	padding: 15px 6px;
+	background-color: rgba(61, 130, 201, 0.5);
+	border-radius: 50px;
+
+	li {
+		display: block;
+
+		a {
+			display: block;
+			margin-bottom: 25px;
+			width: 7px;
+			height: 7px;
+			border-radius: 50%;
+			background-color: rgba(255, 255, 255, .3);
+			transition: background .3s ease;
+
+			&.active {
+				background-color: #fff;
+			}
+		}
+
+		&:last-child {
+			a {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+}
