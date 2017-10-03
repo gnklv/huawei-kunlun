@@ -6,23 +6,24 @@
     pagination: true,
     keyboard: true,
     loop: false,
-    video: null
+    videoF: null,
+    videoB: null
 	};
 
   $.fn.page_scroll = function(options){
     var settings = $.extend({}, defaults, options),
         el = $(this),
-        video = settings.video,
+        videoF = settings.videoF,
+        videoB = settings.videoB,
         sections = $(settings.sectionContainer),
         total = sections.length,
-        lastAnimation = 0,
-        quietPeriod = 500,
         paginationList = "",
-        canScroll = false;
+        canScroll = false,
+        fps = 30,
+        videoDuration = videoF.duration;
 
     $.fn.moveDown = function() {
-      var el = $(this),
-		      index = $(settings.sectionContainer +".active").data("index"),
+      var index = $(settings.sectionContainer +".active").data("index"),
 		      current = $(settings.sectionContainer + "[data-index='" + index + "']"),
 		      next = $(settings.sectionContainer + "[data-index='" + (index + 1) + "']");
 
@@ -34,31 +35,29 @@
         }
       }
 
-      current.removeClass("active");
-      current.find('.c-content__wrapper').fadeOut();
+      videoF.currentTime = current.data('time') + 1;
+      $(videoB).hide();
+      $(videoF).show();
+
+      contentOut(current);
       canScroll = false;
 
-      video.currentTime += 1.5;
-      video.play();
+      videoF.play();
       var playing = setInterval(function() {
-        if (video.currentTime >= next.data('time')) {
-          video.pause();
-          next.addClass("active");
-          next.find('.c-content__wrapper').fadeIn();
+        if (videoF.currentTime >= next.data('time')) {
+          videoF.pause();
+          videoB.currentTime = videoDuration - next.data('time') - 1;
+          contentIn(next);
           canScroll = true;
           clearInterval(playing);
         }
-      }, 100);
+      }, 1000 / fps);
 
-      if(settings.pagination == true) {
-        $(".c-pagination li a" + "[data-index='" + index + "']").removeClass("active");
-        $(".c-pagination li a" + "[data-index='" + next.data("index") + "']").addClass("active");
-      }
+      paginationActive(index, next.data('index'));
     }
 
     $.fn.moveUp = function() {
-      var el = $(this),
-		      index = $(settings.sectionContainer +".active").data("index"),
+      var index = $(settings.sectionContainer +".active").data("index"),
 		      current = $(settings.sectionContainer + "[data-index='" + index + "']"),
 		      next = $(settings.sectionContainer + "[data-index='" + (index - 1) + "']");
 
@@ -70,85 +69,103 @@
         }
       }
 
-      /*current.removeClass("active");
-      current.find('.c-content__wrapper').fadeOut();
+      videoB.currentTime = videoDuration - current.data('time') - 1;
+      $(videoF).hide();
+      $(videoB).show();
+
+      contentOut(current);
       canScroll = false;
 
+      videoB.play();
       var playing = setInterval(function() {
-        if (video.currentTime <= next.data('time')) {
-          next.addClass("active");
-          next.find('.c-content__wrapper').fadeIn();
+        if (videoB.currentTime >= videoDuration - next.data('time')) {
+          videoB.pause();
+          videoF.currentTime = next.data('time') + 1;
+          contentIn(next);
           canScroll = true;
           clearInterval(playing);
-        } else {
-          video.currentTime -= .1;
-          console.log(video.currentTime);
         }
-      }, 30);*/
+      }, 1000 / fps);
 
-      current.removeClass("active");
-      current.find('.c-content__wrapper').fadeOut();
-      $('.c-stillimages').fadeIn(500);
-      $(video).css('display', 'none');
-      video.currentTime = next.data('time');
-      canScroll = false;
-      setTimeout(function() {
-        $(video).css('display', 'block');
-        next.addClass("active");
-        next.find('.c-content__wrapper').fadeIn();
-        $('.c-stillimages').fadeOut(500);
-        canScroll = true;
-      }, 500);
-
-      if(settings.pagination == true) {
-        $(".c-pagination li a" + "[data-index='" + index + "']").removeClass("active");
-        $(".c-pagination li a" + "[data-index='" + next.data("index") + "']").addClass("active");
-      }
+      paginationActive(index, next.data('index'));
     }
 
     $.fn.moveTo = function(page_index) {
-      var current = $(settings.sectionContainer + ".active"),
-      		next = $(settings.sectionContainer + "[data-index='" + (page_index) + "']");
+      var index = $(settings.sectionContainer +".active").data("index"),
+          current = $(settings.sectionContainer + ".active"),
+      		next = $(settings.sectionContainer + "[data-index='" + page_index + "']");
 
       if(next.length > 0) {
-        current.removeClass("active");
-        current.find('.c-content__wrapper').fadeOut();
-        $('.c-stillimages').fadeIn();
-        $(video).css('display', 'none');
-        video.currentTime = next.data('time');
+        contentOut(current);
+        $('.c-interbg').fadeIn(500);
+        $(videoF).hide();
+        $(videoB).hide();
+        videoF.currentTime = next.data('time') + 1;
+        videoB.currentTime = videoDuration - next.data('time') - 1;
         setTimeout(function() {
-          $(video).css('display', 'block');
-          next.addClass("active");
-          next.find('.c-content__wrapper').fadeIn();
-          $('.c-stillimages').fadeOut();
+          $(videoF).show();
+          contentIn(next);
+          $('.c-interbg').fadeOut(500);
         }, 500);
       }
 
-     if(settings.pagination == true) {
-        $(".c-pagination li a.active").removeClass("active");
-        $(".c-pagination li a" + "[data-index='" + page_index + "']").addClass("active");
+      paginationActive(index, next.data('index'));
+    }
+
+    function contentIn (element) {
+      var elemItem = element.find('.c-content__item');
+
+      element.addClass("active");
+
+      $.each(elemItem, function(i) {
+        var direction = $(this).data('anim');
+
+        if ($(this).data('anim-delay')) {
+          $(this).addClass('animate-delay');
+        }
+
+        $(this).removeClass('animate-'+ direction +'-out');
+        $(this).addClass('animate-'+ direction +'-in');
+      });
+    }
+
+    function contentOut(element) {
+      var elemItem = element.find('.c-content__item');
+
+      setTimeout(function() {
+        element.removeClass("active");
+      }, 1000);
+
+      $.each(elemItem, function(i) {
+        var direction = $(this).data('anim');
+
+        $(this).removeClass('animate-delay');
+        $(this).addClass('animate-'+ direction +'-out');
+        $(this).removeClass('animate-'+ direction +'-in');
+      });
+    }
+
+    function paginationActive(i, n) {
+      if(settings.pagination == true) {
+        $(".c-pagination li a" + "[data-index='" + i + "']").removeClass("active");
+        $(".c-pagination li a" + "[data-index='" + n + "']").addClass("active");
       }
     }
 
-
     function init_scroll(event, delta) {
         var deltaOfInterest = delta;
-        var timeNow = new Date().getTime();
-        // Cancel scroll if currently animating or within quiet period
+
         if(!canScroll) {
             event.preventDefault();
             return;
         }
 
         if (deltaOfInterest < 0) {
-          el.moveDown()
+          el.moveDown();
         } else {
-          el.moveUp()
+          el.moveUp();
         }
-        lastAnimation = timeNow;
     }
-
-    // Prepare everything before binding wheel scroll
 
     $.each(sections, function(i) {
       $(this).attr("data-index", i+1);
@@ -158,13 +175,13 @@
       }
     });
 
-    $(settings.sectionContainer + "[data-index='1']").addClass("active");
-    video.play();
+    var firstElem = $(settings.sectionContainer + "[data-index='1']");
+
+    videoF.play();
     var playing = setInterval(function() {
-      if (video.currentTime >= $(settings.sectionContainer + "[data-index='1']").data('time')) {
-        video.pause();
-        $(settings.sectionContainer + "[data-index='1']").addClass("active");
-        $(settings.sectionContainer + "[data-index='1']").find('.c-content__wrapper').fadeIn();
+      if (videoF.currentTime >= firstElem.data('time')) {
+        videoF.pause();
+        contentIn(firstElem);
         canScroll = true;
         clearInterval(playing);
       }
@@ -174,13 +191,28 @@
       if ($('ul.c-pagination').length < 1) $("<ul class='c-pagination'></ul>").prependTo("body");
       $('ul.c-pagination').html(paginationList);
       $('ul.c-pagination li a[data-index="1"]').addClass('active');
-    }
 
-    if(settings.pagination == true)  {
       $(".c-pagination li a").click(function (e){
-        e.preventDefault();
-        var page_index = $(this).data("index");
-        el.moveTo(page_index);
+        if(!canScroll) {
+          e.preventDefault();
+        } else {
+          e.preventDefault();
+
+          var page_index = $(this).data("index");
+          var current = $(settings.sectionContainer + ".active"),
+              next = $(settings.sectionContainer + "[data-index='" + (page_index) + "']");
+
+          switch(page_index - current.data('index')) {
+            case 1:
+              el.moveDown();
+              break;
+            case -1:
+              el.moveUp();
+              break;
+            default: 
+              el.moveTo(page_index)
+          }
+        }
       });
     }
 
@@ -193,33 +225,36 @@
 
     if(settings.keyboard == true) {
       $(document).keyup(function(e) {
-        var tag = e.target.tagName.toLowerCase();
+        if(!canScroll) {
+          return;
+        } else {
+          var tag = e.target.tagName.toLowerCase();
 
-        switch(e.which) {
-          case 38:
-            if (tag != 'input' && tag != 'textarea') el.moveUp()
-          break;
-          case 40:
-            if (tag != 'input' && tag != 'textarea') el.moveDown()
-          break;
-          case 32: //spacebar
-            if (tag != 'input' && tag != 'textarea') el.moveDown()
-          break;
-          case 33: //pageg up
-            if (tag != 'input' && tag != 'textarea') el.moveUp()
-          break;
-          case 34: //page dwn
-            if (tag != 'input' && tag != 'textarea') el.moveDown()
-          break;
-          case 36: //home
-            el.moveTo(1);
-          break;
-          case 35: //end
-            el.moveTo(total);
-          break;
-          default: return;
+          switch(e.which) {
+            case 38:
+              if (tag != 'input' && tag != 'textarea') el.moveUp()
+            break;
+            case 40:
+              if (tag != 'input' && tag != 'textarea') el.moveDown()
+            break;
+            case 32: //spacebar
+              if (tag != 'input' && tag != 'textarea') el.moveDown()
+            break;
+            case 33: //pageg up
+              if (tag != 'input' && tag != 'textarea') el.moveUp()
+            break;
+            case 34: //page dwn
+              if (tag != 'input' && tag != 'textarea') el.moveDown()
+            break;
+            case 36: //home
+              el.moveTo(1);
+            break;
+            case 35: //end
+              el.moveTo(total);
+            break;
+            default: return;
+          }
         }
-
       });
     }
     return false;
@@ -230,17 +265,21 @@
 
 
 (function() {
-	var video = document.getElementById('video_bg');
+	var videoForward = document.getElementById('video_forward'),
+      videoBackward = document.getElementById('video_backward');
 
-	if (video) video.addEventListener('canplay', init_video);
+	if (videoForward) videoForward.addEventListener('canplay', init_video_f);
 
+  function init_video_f() {
+    videoForward.removeEventListener('canplay', init_video_f);
 
-	function init_video() {
-    video.removeEventListener('canplay', init_video);
-
+    $(videoForward).show();
+    $('html, body').addClass('overflow');
+    $('.c-loader').fadeOut();
     $('.c-content').page_scroll({
       sectionContainer: "section.l-section",
-      video: video
+      videoF: videoForward,
+      videoB: videoBackward
     });
   }
 })();

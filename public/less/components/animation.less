@@ -1,0 +1,48 @@
+.animInit(@name) {
+	animation-duration: 1s;
+	animation-name: @name;
+	animation-fill-mode: forwards;
+}
+
+.animCreate(@name, @trIn, @opIn, @trOut, @opOut) {
+	@keyframes @name {
+		0% {
+			transform: @trIn;
+			opacity: @opIn;
+		}
+
+		100% {
+			transform: @trOut;
+			opacity: @opOut;
+		}
+	}
+}
+
+.animate-delay {
+	animation-delay: 1s;
+}
+
+.animate-up-in {.animInit(animateUpIn)}
+.animate-up-out {.animInit(animateUpOut)}
+
+.animate-down-in {.animInit(animateDownIn)}
+.animate-down-out {.animInit(animateDownOut)}
+
+.animate-left-in {.animInit(animateLeftIn)}
+.animate-left-out {.animInit(animateLeftOut)}
+
+.animate-right-in {.animInit(animateRightIn)}
+.animate-right-out {.animInit(animateRightOut)}
+
+
+.animCreate (animateUpIn, translateY(50px), 0, translateY(0), 1);
+.animCreate (animateUpOut, translateY(0), 1, translateY(50px), 0);
+
+.animCreate (animateDownIn, translateY(-50px), 0, translateY(0), 1);
+.animCreate (animateDownOut, translateY(0), 1, translateY(-50px), 0);
+
+.animCreate (animateLeftIn, translateX(50px), 0, translateX(0), 1);
+.animCreate (animateLeftOut, translateX(0), 1, translateX(50px), 0);
+
+.animCreate (animateRightIn, translateX(-50px), 0, translateX(0), 1);
+.animCreate (animateRightOut, translateX(0), 1, translateX(-50px), 0);
