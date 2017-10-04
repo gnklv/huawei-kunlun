@@ -39,7 +39,7 @@
       $(videoB).hide();
       $(videoF).show();
 
-      contentOut(current);
+      contentOut(current, current.data('index'));
       canScroll = false;
 
       videoF.play();
@@ -47,7 +47,7 @@
         if (videoF.currentTime >= next.data('time')) {
           videoF.pause();
           videoB.currentTime = videoDuration - next.data('time') - 1;
-          contentIn(next);
+          contentIn(next, next.data('index'));
           canScroll = true;
           clearInterval(playing);
         }
@@ -73,7 +73,7 @@
       $(videoF).hide();
       $(videoB).show();
 
-      contentOut(current);
+      contentOut(current, current.data('index'));
       canScroll = false;
 
       videoB.play();
@@ -81,7 +81,7 @@
         if (videoB.currentTime >= videoDuration - next.data('time')) {
           videoB.pause();
           videoF.currentTime = next.data('time') + 1;
-          contentIn(next);
+          contentIn(next, next.data('index'));
           canScroll = true;
           clearInterval(playing);
         }
@@ -96,15 +96,15 @@
       		next = $(settings.sectionContainer + "[data-index='" + page_index + "']");
 
       if(next.length > 0) {
-        contentOut(current);
+        contentOut(current, current.data('index'));
         $('.c-interbg').fadeIn(500);
         $(videoF).hide();
         $(videoB).hide();
         videoF.currentTime = next.data('time') + 1;
         videoB.currentTime = videoDuration - next.data('time') - 1;
         setTimeout(function() {
-          $(videoF).show();
-          contentIn(next);
+          $(videoF).fadeIn();
+          contentIn(next, next.data("index"));
           $('.c-interbg').fadeOut(500);
         }, 500);
       }
@@ -112,7 +112,7 @@
       paginationActive(index, next.data('index'));
     }
 
-    function contentIn (element) {
+    function contentIn (element, index) {
       var elemItem = element.find('.c-content__item');
 
       element.addClass("active");
@@ -127,14 +127,19 @@
         $(this).removeClass('animate-'+ direction +'-out');
         $(this).addClass('animate-'+ direction +'-in');
       });
+
+      if (index == total) {
+        $('.c-footer').removeClass('animate-up-out');
+        $('.c-footer').addClass('animate-up-in');
+      }
     }
 
-    function contentOut(element) {
+    function contentOut(element, index) {
       var elemItem = element.find('.c-content__item');
 
       setTimeout(function() {
         element.removeClass("active");
-      }, 1000);
+      }, 500);
 
       $.each(elemItem, function(i) {
         var direction = $(this).data('anim');
@@ -143,6 +148,11 @@
         $(this).addClass('animate-'+ direction +'-out');
         $(this).removeClass('animate-'+ direction +'-in');
       });
+
+      if (index == total) {
+        $('.c-footer').addClass('animate-up-out');
+        $('.c-footer').removeClass('animate-up-in');
+      }
     }
 
     function paginationActive(i, n) {
@@ -283,3 +293,66 @@
     });
   }
 })();
+
+$(document).ready(function() {
+  var modalBtn = $('.c-btn--request'),
+      modalClose = $('.c-modal__close'),
+      modal = $('.c-modal__overlay');
+
+  modalBtn.on('click', function(event) {
+    event.preventDefault();
+    openModal(modal);
+  });
+
+  modalClose.on('click', function() {
+    closeModal(modal);
+  });
+
+  $(document).on('click', function(event) {
+    switch(event.target) {
+      case $('.c-modal__overlay')[0]:
+      case $('.c-modal__wrapper')[0]:
+        closeModal(modal);
+    }
+  });
+
+  $(document).keyup(function(event) {
+    if (event.keyCode === 27) closeModal(modal);
+  });
+
+  function openModal(el) {
+    el.removeClass('out');
+    el.addClass('open');
+  }
+
+  function closeModal(el) {
+    el.addClass('out');
+    el.removeClass('open');
+  }
+
+  function getScrollBarWidth () {
+    let inner = document.createElement('p');
+    inner.style.width = "100%";
+    inner.style.height = "200px";
+
+    let outer = document.createElement('div');
+    outer.style.position = "absolute";
+    outer.style.top = "0px";
+    outer.style.left = "0px";
+    outer.style.visibility = "hidden";
+    outer.style.width = "200px";
+    outer.style.height = "150px";
+    outer.style.overflow = "hidden";
+    outer.appendChild (inner);
+
+    document.body.appendChild (outer);
+    let w1 = inner.offsetWidth;
+    outer.style.overflow = 'scroll';
+    let w2 = inner.offsetWidth;
+    if (w1 == w2) w2 = outer.clientWidth;
+
+    document.body.removeChild (outer);
+
+    return w1 - w2;
+  }
+});

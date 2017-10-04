@@ -1,0 +1,110 @@
+.c-modal {
+	position: relative;
+	width: 670px;
+	padding: 30px;
+	margin: 0 auto;
+	background-color: #fff;
+
+	&__overlay {
+		position: fixed;
+		z-index: 4;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		margin: 0;
+		padding: 0;
+		background-color: rgba(0,0,0,.5);
+		border: 0;
+		border-collapse: collapse;
+		visibility: hidden;
+		overflow: auto;
+		overflow-y: scroll;
+
+		&.open {
+			visibility: visible;
+			animation: fadeEff .5s;
+			display: block;
+			animation-fill-mode: forwards;
+
+			.c-modal {
+				.animInit(animateUpIn);
+			}
+		}
+
+		&.out {
+			visibility: hidden;
+			animation: fadeEffOut .5s;
+			animation-fill-mode: forwards;
+
+			.c-modal {
+				.animInit(animateUpOut);
+			}
+		}
+	}
+
+	&__container {
+		height: 100%;
+		margin: 0 auto;
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+	
+	&__wrapper {
+		padding: 24px;
+		margin: 0;
+		border: 0;
+		vertical-align: middle;
+	}
+
+	&__close {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		width: 32px;
+		height: 32px;
+		display: flex;
+		border: 2px solid #9a9a9a;
+		border-radius: 50%;
+		background-color: transparent;
+		overflow: hidden;
+		outline: none;
+		transition: border-color .3s;
+		cursor: pointer;
+
+		svg {
+			width: 20px;
+			height: 20px;
+			fill: #9a9a9a;
+			transition: fill .3s;
+		}
+
+		&:hover {
+			border-color: darken(#9a9a9a, 10%);
+
+			svg {
+				fill: darken(#9a9a9a, 10%);
+			}
+		}
+	}
+}
+
+@keyframes fadeEff {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeEffOut {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}

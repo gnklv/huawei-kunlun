@@ -1,0 +1,131 @@
+.c-form {
+
+	&__title {
+		margin-bottom: round(30/24em, 3);
+		.fz(24, 32);
+		font-family: @base-font;
+		font-weight: 700;
+		color: #000;
+		text-transform: uppercase;
+	}
+
+	&__grid {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		justify-content: space-between;
+		flex-wrap: nowrap;
+
+		&-col {
+			flex-grow: 0;
+			flex-shrink: 0;
+			flex-basis: 48%;	
+		}
+	}
+
+	&__group {
+		margin-bottom: 20px;
+	}
+
+	&__label {
+		display: block;
+		margin-bottom: 5px;
+		.fz(14, 18);
+		font-family: @base-font;
+		font-weight: 500;
+		color: #000;
+	}
+
+	&__input {
+		width: 100%;
+		height: 38px;
+		padding: 0 10px;
+		border: 2px solid #dedede;
+		.fz(16, 20);
+		font-weight: 300;
+		transition: border .3s;
+		outline: none;
+
+		&:focus {
+			border-color: #3d82c9;
+		}
+	}
+
+	&__policy {
+		display: block;
+		position: relative;
+
+		label {
+			cursor: pointer;
+		}
+
+		input {
+			display: none;
+
+			&:checked + .c-form__policy-box::before {
+				opacity: 1;
+			}
+		}
+
+		&-box {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 20px;
+			height: 20px;
+			border: 2px solid #dedede;
+			
+			&::before {
+				content: '';
+				position: absolute;
+				top: 50%;
+				margin-top: -12px;
+				left: 50%;
+				margin-left: -2px;
+				display: block;
+				width: 10px;
+				height: 16px;
+				transform: rotateZ(45deg);
+				border: 3px solid #3d82c9;
+				border-top: 0;
+				border-left: 0;
+				opacity: 0;
+			}
+		}
+
+		&-text {
+			margin-left: 38px;
+			display: block;
+			.fz(13, 16);
+			font-family: @base-font;
+			font-weight: 300;
+			user-select: none;
+		}	
+	}
+
+	&__submit {
+		display: inline-block;
+		vertical-align: top;
+		padding: 11px 23px;
+		border: 0;
+		border-radius: 5px;
+		background-color: #9b0f15;
+		.fz(18, 22);
+		font-family: @base-font;
+		font-weight: 300;
+		color: #fff;
+		transition: background .3s;
+		cursor: pointer;
+
+		&:hover {
+			background-color: darken(#9b0f15, 10%)
+		}
+	}
+}
+
+textarea.c-form__input {
+	resize: none;
+  height: 118px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

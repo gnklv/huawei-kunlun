@@ -4,17 +4,26 @@
 		display: flex;
 		align-items: center;
 		margin-bottom: 11.389vh;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
 	}
 
 	&__icon {
 		display: flex;
 		flex-shrink: 0;
 		width: 22.59%;
-		height: 177px;
 		margin-right: 45px;
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: contain;
+
+		&::before {
+			content: '';
+			display: block;
+			padding-top: 92.188%;
+		}
 
 		&-text {
 			display: inline-block;
