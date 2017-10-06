@@ -358,7 +358,6 @@ $(document).ready(function() {
     let formData = $(this).serializeArray();
     let result = {};
     let url = $(this).attr('action');
-    let success = $(this).attr('data-success');
 
     $.map(formData, (n, i) => result[n['name']] = n['value']);
     result.method = 'Registration';
@@ -367,6 +366,8 @@ $(document).ready(function() {
     
     closeModal(modal);
 
-    $.post(url, result);
+    $.post(url, result)
+      .done(() => { console.log("Success request!") })
+      .fail(() => { console.log("Error request!") });
   };
 });
