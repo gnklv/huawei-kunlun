@@ -38,6 +38,7 @@
       videoF.currentTime = current.data('time') + 1;
       $(videoB).hide();
       $(videoF).show();
+      current.find('.c-content__bg').hide();
 
       contentOut(current, current.data('index'));
       canScroll = false;
@@ -46,7 +47,8 @@
       var playing = setInterval(function() {
         if (videoF.currentTime >= next.data('time')) {
           videoF.pause();
-          videoB.currentTime = videoDuration - next.data('time') - 1;
+          videoB.currentTime = videoDuration - next.data('time');
+          next.find('.c-content__bg').show();
           contentIn(next, next.data('index'));
           canScroll = true;
           clearInterval(playing);
@@ -69,9 +71,10 @@
         }
       }
 
-      videoB.currentTime = videoDuration - current.data('time') - 1;
+      videoB.currentTime = videoDuration - current.data('time');
       $(videoF).hide();
       $(videoB).show();
+      current.find('.c-content__bg').hide();
 
       contentOut(current, current.data('index'));
       canScroll = false;
@@ -81,6 +84,7 @@
         if (videoB.currentTime >= videoDuration - next.data('time')) {
           videoB.pause();
           videoF.currentTime = next.data('time') + 1;
+          next.find('.c-content__bg').show();
           contentIn(next, next.data('index'));
           canScroll = true;
           clearInterval(playing);
@@ -97,61 +101,76 @@
 
       if(next.length > 0) {
         contentOut(current, current.data('index'));
-        $('.c-interbg').fadeIn(500);
+        $('.c-interbg').fadeIn(300);
         $(videoF).hide();
         $(videoB).hide();
+        current.find('.c-content__bg').hide();
         videoF.currentTime = next.data('time') + 1;
-        videoB.currentTime = videoDuration - next.data('time') - 1;
+        videoB.currentTime = videoDuration - next.data('time');
         setTimeout(function() {
-          $(videoF).fadeIn();
+          next.find('.c-content__bg').fadeIn();
           contentIn(next, next.data("index"));
-          $('.c-interbg').fadeOut(500);
-        }, 500);
+          $('.c-interbg').fadeOut(300);
+        }, 1000);
       }
 
       paginationActive(index, next.data('index'));
     }
 
     function contentIn (element, index) {
-      var elemItem = element.find('.c-content__item');
+      var elAnimIn = element.find('.anim-in'),
+          elAnimOut = element.find('.anim-out');
 
       element.addClass("active");
 
-      $.each(elemItem, function(i) {
-        var direction = $(this).data('anim');
+      if (elAnimOut.length > 0) {
+        $.each(elAnimOut, function(i) {
+          var direction = $(this).data('anim');
 
-        if ($(this).data('anim-delay')) {
-          $(this).addClass('animate-delay');
-        }
+          $(this).removeClass('animate-'+ direction +'-out');
+        });
+      }
 
-        $(this).removeClass('animate-'+ direction +'-out');
-        $(this).addClass('animate-'+ direction +'-in');
-      });
+      if (elAnimIn.length > 0) {
+        $.each(elAnimIn, function(i) {
+          var direction = $(this).data('anim');
+
+          if ($(this).data('anim-delay')) {
+            $(this).css({
+              '-webkit-animation-delay': `${$(this).data('anim-delay')}ms`,
+              'animation-delay': `${$(this).data('anim-delay')}ms`
+            });
+          }
+
+          $(this).addClass('animate-'+ direction +'-in');
+        });
+      }
 
       if (index == total) {
         $('.c-footer').removeClass('animate-up-out');
-        $('.c-footer').addClass('animate-up-in');
+        $('.c-footer').addClass('animate-up-in animate-delay');
       }
     }
 
     function contentOut(element, index) {
-      var elemItem = element.find('.c-content__item');
+      var elAnimIn = element.find('.anim-in'),
+          elAnimOut = element.find('.anim-out');
 
       setTimeout(function() {
         element.removeClass("active");
-      }, 500);
+      }, 1000);
 
-      $.each(elemItem, function(i) {
-        var direction = $(this).data('anim');
-
-        $(this).removeClass('animate-delay');
-        $(this).addClass('animate-'+ direction +'-out');
-        $(this).removeClass('animate-'+ direction +'-in');
-      });
+      if (elAnimOut.length > 0) {
+        $.each(elAnimOut, function(i) {
+          var direction = $(this).data('anim');
+          
+          $(this).addClass('animate-'+ direction +'-out');
+        });
+      }
 
       if (index == total) {
+        $('.c-footer').removeClass('animate-up-in animate-delay');
         $('.c-footer').addClass('animate-up-out');
-        $('.c-footer').removeClass('animate-up-in');
       }
     }
 
@@ -191,6 +210,7 @@
     var playing = setInterval(function() {
       if (videoF.currentTime >= firstElem.data('time')) {
         videoF.pause();
+        firstElem.find('.c-content__bg').show();
         contentIn(firstElem);
         canScroll = true;
         clearInterval(playing);
@@ -273,28 +293,25 @@
 
 }(window.jQuery);
 
-
-(function() {
+$(document).ready(function() {
 	var videoForward = document.getElementById('video_forward'),
       videoBackward = document.getElementById('video_backward');
 
-	if (videoForward) videoForward.addEventListener('canplay', init_video_f);
+	if (videoForward) videoForward.addEventListener('loadedmetadata', init_video_f);
 
   function init_video_f() {
-    videoForward.removeEventListener('canplay', init_video_f);
-
+    videoForward.removeEventListener('loadedmetadata', init_video_f);
+    console.log(1);
+    $('.c-loader').fadeOut();
     $(videoForward).show();
     $('html, body').addClass('overflow');
-    $('.c-loader').fadeOut();
     $('.c-content').page_scroll({
       sectionContainer: "section.l-section",
       videoF: videoForward,
       videoB: videoBackward
     });
   }
-})();
 
-$(document).ready(function() {
   var modalBtn = $('.c-btn--request'),
       modalClose = $('.c-modal__close'),
       modal = $('.c-modal__overlay');
@@ -321,38 +338,35 @@ $(document).ready(function() {
   });
 
   function openModal(el) {
+    el.fadeIn();
     el.removeClass('out');
     el.addClass('open');
   }
 
   function closeModal(el) {
+    el.fadeOut();
     el.addClass('out');
     el.removeClass('open');
   }
 
-  function getScrollBarWidth () {
-    let inner = document.createElement('p');
-    inner.style.width = "100%";
-    inner.style.height = "200px";
+  $('input[type="tel"]').mask('+7 (999) 999-99-99');
 
-    let outer = document.createElement('div');
-    outer.style.position = "absolute";
-    outer.style.top = "0px";
-    outer.style.left = "0px";
-    outer.style.visibility = "hidden";
-    outer.style.width = "200px";
-    outer.style.height = "150px";
-    outer.style.overflow = "hidden";
-    outer.appendChild (inner);
+  $('.c-form').on('submit', sendHWForm);
 
-    document.body.appendChild (outer);
-    let w1 = inner.offsetWidth;
-    outer.style.overflow = 'scroll';
-    let w2 = inner.offsetWidth;
-    if (w1 == w2) w2 = outer.clientWidth;
+  function sendHWForm (e) {
+    e.preventDefault();
+    let formData = $(this).serializeArray();
+    let result = {};
+    let url = $(this).attr('action');
+    let success = $(this).attr('data-success');
 
-    document.body.removeChild (outer);
+    $.map(formData, (n, i) => result[n['name']] = n['value']);
+    result.method = 'Registration';
 
-    return w1 - w2;
-  }
+    result.phone = result.phone.replace(/\+|\(|\)|\-|\s/g, "");
+    
+    closeModal(modal);
+
+    $.post(url, result);
+  };
 });

@@ -2,10 +2,10 @@
 {% block content %}
 <div class="c-bgvideo">
 	<video id="video_backward">
-		<source src="{{ 'bg-video-backward.mp4' | video_asset }}" type="video/mp4">
+		<source src="/video/bg-video-backward.mp4" type="video/mp4">
 	</video>
 	<video id="video_forward">
-		<source src="{{ 'bg-video-forward.mp4' | video_asset }}" type="video/mp4">
+		<source src="/video/bg-video-forward.mp4" type="video/mp4">
 	</video>
 </div>
 <div class="c-interbg"></div>
@@ -14,11 +14,11 @@
 	<section class="l-section c-hero" data-time="1.70">
 		<img class="c-content__bg" src="{{ 'still-image-1.jpg' | img_asset }}" alt="">
 		<div class="c-content__wrapper">
-			<div class="c-content__inner">
-				<div class="c-content__item" data-anim="left">
+			<div class="c-content__inner anim-out" data-anim="left">
+				<div class="anim-in" data-anim="left">
 					<h1 class="c-hero__title">KUNLUN</h1>
 				</div>
-				<div class="c-content__item" data-anim="left" data-anim-delay="true">
+				<div class="anim-in" data-anim="left" data-anim-delay="500">
 					<p class="c-hero__subtitle">Mission Critical сервер x86, который поддерживает масштабирование <nobr>до&nbsp;32-сокетов</nobr>. Отличается высокой производительностью, масштабируемостью и&nbsp;надежностью, требуемой критически важным приложениям.</p>
 					<p class="c-hero__subtitle">Применяя инновационную технологию RAS 2.0 от&nbsp;Huawei, Kunlun изменяет пассивное обнаружение неисправности на&nbsp;проактивное предотвращение отказа. Это единственный в&nbsp;отрасли сервер, который поддерживает CPU и&nbsp;модули памяти с&nbsp;возможностью &laquo;горячей&raquo; замены.</p>
 				</div>
@@ -29,24 +29,24 @@
 	<section class="l-section power" data-time="5.65">
 		<img class="c-content__bg" src="{{ 'still-image-2.jpg' | img_asset }}" alt="">
 		<div class="c-content__wrapper">
-			<div class="c-content__inner">
-				<div class="c-features__item c-content__item" data-anim="left">
-					<div class="c-features__icon" style="background-image: url({{ 'features-icon-1.png' | img_asset }})">
+			<div class="c-content__inner anim-out" data-anim="left">
+				<div class="c-features__item">	
+					<div class="c-features__icon anim-in" data-anim-delay="500" data-anim="zoom" style="background-image: url({{ 'features-icon-1.png' | img_asset }})">
 						<p class="c-features__icon-text">
 							1+1
 						</p>
 					</div>
-					<p class="c-content__lead">
+					<p class="c-content__lead anim-in" data-anim="left">
 						Модуль блока питания поддерживает схему резервирования 1+1
 					</p>
 				</div>
-				<div class="c-features__item c-content__item" data-anim="left" data-anim-delay="true">
-					<div class="c-features__icon" style="background-image: url({{ 'features-icon-2.png' | img_asset }})">
+				<div class="c-features__item">
+					<div class="c-features__icon anim-in" data-anim="zoom" data-anim-delay="1500" style="background-image: url({{ 'features-icon-2.png' | img_asset }})">
 						<p class="c-features__icon-text">
 							<span>до</span>8<span>цп</span>
 						</p>
 					</div>
-					<p class="c-content__lead">
+					<p class="c-content__lead anim-in" data-anim="left" data-anim-delay="1000">
 						Вычислительный блок поддерживает до&nbsp;8&nbsp;цп на&nbsp;шасси и&nbsp;онлайн увеличение количества шасси <nobr>(до&nbsp;4-х)</nobr>	
 					</p>
 				</div>
@@ -56,12 +56,15 @@
 
 	<section class="l-section modul modul--right" data-time="11">
 		<img class="c-content__bg" src="{{ 'still-image-3.jpg' | img_asset }}" alt="">
-		<div class="c-content__wrapper">
-			<div class="c-content__inner">
-				<div class="c-content__item" data-anim="right">
+		<div class="c-content__wrapper h-tac">
+			<div class="c-content__inner anim-out" data-anim="right">
+				<div class="anim-in" data-anim="zoom" data-anim-delay="1000">
+					<img class="c-content__icon" src="{{ 'content-icon-3.svg' | img_asset }}" width="151" height="150" alt="">
+				</div>
+				<div class="anim-in" data-anim="right">
 					<p class="c-content__title">Вычислительный модуль</p>
 				</div>
-				<div class="c-content__item" data-anim="right" data-anim-delay="true">
+				<div class="anim-in" data-anim="right" data-anim-delay="500">
 					<p class="c-content__text">
 						Обладает уникальной в&nbsp;индустрии поддержкой <span>функциии горячей замены</span>, а&nbsp;также Intel Xeon E7&nbsp;v3/v4&nbsp;ЦП и&nbsp;DDR4&nbsp;DIMMs
 					</p>
@@ -73,14 +76,23 @@
 	<section class="l-section memory" data-time="14.75">
 		<img class="c-content__bg" src="{{ 'still-image-4.jpg' | img_asset }}" alt="">
 		<div class="c-content__wrapper">
-			<div class="c-content__inner">
-				<div class="c-content__item" data-anim="up">
-					<p class="c-content__title">Оперативная память</p>
-				</div>
-				<div class="c-content__item" data-anim="up" data-anim-delay="true">
-					<p class="c-content__text">
-						Kunlun 9032 поддерживает до&nbsp;768&nbsp;DIMMs, <br>9016 модель поддерживает до&nbsp;384&nbsp;DIMMs	
-					</p>
+			<div class="c-content__inner anim-out" data-anim="up">
+				<div class="c-content__row">
+					<div class="c-content__col">
+						<div class="anim-in" data-anim="zoom" data-anim-delay="1000">
+							<img class="c-content__icon" src="{{ 'content-icon-4.svg' | img_asset }}" width="125" height="150" alt="">
+						</div>
+					</div>
+					<div class="c-content__col">
+						<div class="anim-in" data-anim="up">
+							<p class="c-content__title" style="margin-left: -5px;">Оперативная память</p>
+						</div>
+						<div class="anim-in" data-anim="up" data-anim-delay="500">
+							<p class="c-content__text">
+								Kunlun 9032 поддерживает до&nbsp;768&nbsp;DIMMs, <br>9016 модель поддерживает до&nbsp;384&nbsp;DIMMs	
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -88,12 +100,15 @@
 
 	<section class="l-section modul modul--right" data-time="21.6">
 		<img class="c-content__bg" src="{{ 'still-image-5.jpg' | img_asset }}" alt="">
-		<div class="c-content__wrapper">
-			<div class="c-content__inner">
-				<div class="c-content__item" data-anim="right">
+		<div class="c-content__wrapper h-tac">
+			<div class="c-content__inner anim-out" data-left="right">
+				<div class="anim-in" data-anim="zoom" data-anim-delay="1000">
+					<img class="c-content__icon" src="{{ 'content-icon-5.svg' | img_asset }}" width="151" height="150" alt="">
+				</div>
+				<div class="anim-in" data-anim="right">
 					<p class="c-content__title">Фронтальный модуль <nobr>ввода/вывода</nobr></p>
 				</div>
-				<div class="c-content__item" data-anim="right" data-anim-delay="true">
+				<div class="anim-in" data-anim="right" data-anim-delay="500">
 					<p class="c-content__text">
 						Поддерживает GPUs и&nbsp;PCIe SSDs. Благодаря встроенным HDD, <span>нет нужды во&nbsp;внешних устройствах</span>
 					</p>
@@ -104,12 +119,15 @@
 
 	<section class="l-section modul modul modul--left" data-time="27">
 		<img class="c-content__bg" src="{{ 'still-image-6.jpg' | img_asset }}" alt="">
-		<div class="c-content__wrapper">
-			<div class="c-content__inner">
-				<div class="c-content__item" data-anim="left">
+		<div class="c-content__wrapper h-tac">
+			<div class="c-content__inner anim-out" data-anim="left">
+				<div class="anim-in" data-anim="zoom" data-anim-delay="1000">
+					<img class="c-content__icon" src="{{ 'content-icon-6.svg' | img_asset }}" width="151" height="150" alt="">
+				</div>
+				<div class="anim-in" data-anim="left">
 					<p class="c-content__title">Центральный модуль интерфейсов</p>
 				</div>
-				<div class="c-content__item" data-anim="left" data-anim-delay="true">
+				<div class="anim-in" data-anim="left" data-anim-delay="500">
 					<p class="c-content__text">
 						Содержит KVM порты для локального обслуживания, отслеживает состояние систем и&nbsp;обеспечивает UID индикацию
 					</p>
@@ -122,21 +140,25 @@
 		<img class="c-content__bg" src="{{ 'still-image-7.jpg' | img_asset }}" alt="">
 		<div class="c-content__wrapper">
 			<div class="c-content__inner">
-				<div class="c-blocks__item">
-					<div class="c-content__item" data-anim="left">
+				<div class="c-blocks__item anim-out" data-anim="left">
+					<div class="c-features__icon anim-in" data-anim="zoom" data-anim-delay="500" style="background-image: url({{ 'features-icon-1.png' | img_asset }})">
 						<p class="c-features__icon-text">
 							N+1
 						</p>
+					</div>
+					<div class="anim-in" data-anim="left">
 						<p class="c-content__lead">
 							Блок охлаждения поддерживает 8&nbsp;модулей с&nbsp;регулируемой скоростью и&nbsp;N+1 резервирования
 						</p>
 					</div>
 				</div>
-				<div class="c-blocks__item">
-					<div class="c-content__item" data-anim="right">
+				<div class="c-blocks__item anim-out" data-anim="right">
+					<div class="c-features__icon anim-in" data-anim="zoom" data-anim-delay="500" style="background-image: url({{ 'features-icon-2.png' | img_asset }})">
 						<p class="c-features__icon-text">
 							2+1
 						</p>
+					</div>
+					<div class="anim-in" data-anim="right">
 						<p class="c-content__lead">
 							Блок модулей питания поддерживает до&nbsp;4-х блоков питания и&nbsp;2+2 резервирования
 						</p>
@@ -148,12 +170,15 @@
 	
 	<section class="l-section modul modul modul--left" data-time="43.1">
 		<img class="c-content__bg" src="{{ 'still-image-8.jpg' | img_asset }}" alt="">
-		<div class="c-content__wrapper">
-			<div class="c-content__inner">
-				<div class="c-content__item" data-anim="left">
+		<div class="c-content__wrapper h-tac">
+			<div class="c-content__inner anim-out" data-anim="left">
+				<div class="anim-in" data-anim="zoom" data-anim-delay="1000">
+					<img class="c-content__icon" src="{{ 'content-icon-8.svg' | img_asset }}" width="151" height="150" alt="">
+				</div>
+				<div class="anim-in" data-anim="left">
 					<p class="c-content__title">LСD дисплей</p>
 				</div>
-				<div class="c-content__item" data-anim="left" data-anim-delay="true">
+				<div class="anim-in" data-anim="left" data-anim-delay="500">
 					<p class="c-content__text">
 						Сенсорный 8-ми дюймовый LCD дисплей отображает рабочий статус сервера в&nbsp;реальном времени, обеспечивает ежедневное инспектирование и&nbsp;онлайн обсдуживание
 					</p>
@@ -165,13 +190,13 @@
 	<section class="l-section contacts" data-time="47">
 		<img class="c-content__bg" src="{{ 'still-image-9.jpg' | img_asset }}" alt="">
 		<div class="c-content__wrapper">
-			<div class="c-content__inner">
-				<div class="c-content__item" data-anim="left">
+			<div class="c-content__inner anim-out" data-anim="left">
+				<div class="anim-in" data-anim="left">
 					<p class="c-content__lead">
 						Сервер Kunlun для критически важных приложений соответствует требованиям критически важных сред к&nbsp;масштабируемости и&nbsp;производительности, что позволяет сократить общие затраты
 					</p>
 				</div>
-				<div class="c-btn__wrapper c-btn__wrapper--lg c-content__item" data-anim="left" data-anim-delay="true">
+				<div class="c-btn__wrapper c-btn__wrapper--lg anim-in" data-anim="left" data-anim-delay="500">
 					<a href="#" class="c-btn c-btn--request">Оставить заявку</a>
 					<a href="#" class="c-btn c-btn--specification">Скачать спецификации</a>
 				</div>
@@ -262,13 +287,13 @@
 							</svg>
 						</button>
 						<p class="c-form__title">Оставить заявку</p>
-						<form action="https://huawei.kzntsv.ru/proxy" class="c-form" method="">
-							<input type="hidden" name="A_IdG" value="6183">
+						<form action="https://huawei.kzntsv.ru/proxy" class="c-form">
+							<input type="hidden" name="A_IdG" value="6188">
 		          <input type="hidden" name="A_Id" value="1">
 		          <input type="hidden" name="TypeCooperation" value="Заказчик">
 		          <input type="hidden" name="Position" value="Другое">
 
-		          <input type="hidden" name="ProductName" value="oceanstor5500">
+		          <input type="hidden" name="ProductName" value="kunlun">
 
 		          <input type="hidden" name="sName" value="">
 							<div class="c-form__grid">

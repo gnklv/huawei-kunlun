@@ -1,10 +1,11 @@
-.animInit(@name) {
-	animation-duration: .5s;
+.animInit(@name, @timing) {
 	animation-name: @name;
+	animation-duration: .5s;
 	animation-fill-mode: forwards;
+	animation-timing-function: @timing;
 }
 
-.animCreate(@name, @trIn, @opIn, @trOut, @opOut) {
+.animCreateTransform(@name, @trIn, @opIn, @trOut, @opOut) {
 	@keyframes @name {
 		0% {
 			transform: @trIn;
@@ -19,30 +20,40 @@
 }
 
 .animate-delay {
-	animation-delay: .5s;
+	animation-delay: 1s;
 }
 
-.animate-up-in {.animInit(animateUpIn)}
-.animate-up-out {.animInit(animateUpOut)}
+.anim-in {
+	opacity: 0;
+}
 
-.animate-down-in {.animInit(animateDownIn)}
-.animate-down-out {.animInit(animateDownOut)}
+.animate-up-in {.animInit(animateUpIn, ease)}
+.animate-up-out {.animInit(animateUpOut, ease)}
 
-.animate-left-in {.animInit(animateLeftIn)}
-.animate-left-out {.animInit(animateLeftOut)}
+.animate-down-in {.animInit(animateDownIn, ease)}
+.animate-down-out {.animInit(animateDownOut, ease)}
 
-.animate-right-in {.animInit(animateRightIn)}
-.animate-right-out {.animInit(animateRightOut)}
+.animate-left-in {.animInit(animateLeftIn, ease)}
+.animate-left-out {.animInit(animateLeftOut, ease)}
+
+.animate-right-in {.animInit(animateRightIn, ease)}
+.animate-right-out {.animInit(animateRightOut, ease)}
+
+.animate-zoom-in {.animInit(animateZoomIn, cubic-bezier(.175,.885,.32,1.275))}
+.animate-zoom-out {.animInit(animateZoomOut, cubic-bezier(.175,.885,.32,1.275))}
 
 
-.animCreate (animateUpIn, translateY(50px), 0, translateY(0), 1);
-.animCreate (animateUpOut, translateY(0), 1, translateY(50px), 0);
+.animCreateTransform (animateUpIn, translateY(50px), 0, translateY(0), 1);
+.animCreateTransform (animateUpOut, translateY(0), 1, translateY(50px), 0);
 
-.animCreate (animateDownIn, translateY(-50px), 0, translateY(0), 1);
-.animCreate (animateDownOut, translateY(0), 1, translateY(-50px), 0);
+.animCreateTransform (animateDownIn, translateY(-50px), 0, translateY(0), 1);
+.animCreateTransform (animateDownOut, translateY(0), 1, translateY(-50px), 0);
 
-.animCreate (animateLeftIn, translateX(50px), 0, translateX(0), 1);
-.animCreate (animateLeftOut, translateX(0), 1, translateX(50px), 0);
+.animCreateTransform (animateLeftIn, translateX(50px), 0, translateX(0), 1);
+.animCreateTransform (animateLeftOut, translateX(0), 1, translateX(50px), 0);
 
-.animCreate (animateRightIn, translateX(-50px), 0, translateX(0), 1);
-.animCreate (animateRightOut, translateX(0), 1, translateX(-50px), 0);
+.animCreateTransform (animateRightIn, translateX(-50px), 0, translateX(0), 1);
+.animCreateTransform (animateRightOut, translateX(0), 1, translateX(-50px), 0);
+
+.animCreateTransform (animateZoomIn, scale(0), 0, scale(1), 1);
+.animCreateTransform (animateZoomOut, scale(1), 1, scale(0), 0);

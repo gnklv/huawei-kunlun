@@ -132,7 +132,7 @@ html {
 body {
   font-family: 'Roboto', Segoe UI, SegoeUI, Tahoma, Verdana, Arial, sans-serif;
   color: #2f2e43;
-  background-color: #fff;
+  background-image: linear-gradient(to bottom, #b1dbf1, #d9ffff);
   line-height: 1.2;
   font-style: normal;
   font-weight: normal;
@@ -1017,7 +1017,7 @@ body {
 }
 .c-hero__title {
   font-size: 14.583vw;
-  line-height: 1.093;
+  line-height: 1.143;
   font-family: 'Huawei Script', Segoe UI, SegoeUI, Tahoma, Verdana, Arial, sans-serif;
   letter-spacing: -0.015em;
 }
@@ -1044,6 +1044,7 @@ body {
   top: 50%;
   left: 15.625%;
   transform: translateY(-50%);
+  margin-top: -48px;
   width: 39.583%;
 }
 .c-content {
@@ -1059,8 +1060,21 @@ body {
   font-weight: 300;
   color: #2f2f2f;
 }
-.c-content__item {
-  opacity: 0;
+.c-content__row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-align: center;
+      align-items: center;
+}
+.c-content__col {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  -ms-flex-positive: 0;
+      flex-grow: 0;
 }
 .c-content__bg {
   display: none;
@@ -1076,7 +1090,7 @@ body {
 .c-content__title {
   margin-bottom: 0.333em;
   font-size: 3.125vw;
-  line-height: 1.2;
+  line-height: 1;
   font-weight: 900;
 }
 .c-content__text {
@@ -1100,16 +1114,18 @@ body {
   top: 50%;
   transform: translateY(-50%);
   left: 15.625%;
+  margin-top: -48px;
   width: 44.27%;
 }
 .modul .c-content__wrapper {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  margin-top: -48px;
   width: 33%;
 }
 .modul--right .c-content__wrapper {
-  right: 5.208%;
+  right: 7.208%;
 }
 @media screen and (max-width: 1600px) {
   .modul--right .c-content__wrapper {
@@ -1121,10 +1137,9 @@ body {
 }
 .memory .c-content__wrapper {
   position: absolute;
-  top: 13.546%;
+  top: 11.546%;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
 }
 @media screen and (max-width: 1600px) {
   .memory .c-content__wrapper {
@@ -1136,20 +1151,30 @@ body {
     top: 4.546%;
   }
 }
-.blocks .c-content__wrapper,
-.blocks .c-content__inner {
+.memory .c-content__icon {
+  margin-right: 30px;
+}
+.blocks .c-content__wrapper {
   width: 100%;
   height: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+}
+.blocks .c-content__inner {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  margin-top: -48px;
 }
 .blocks .c-blocks__item {
-  position: absolute;
   width: 21.875%;
-  top: 50%;
-  transform: translateY(-50%);
 }
 @media screen and (max-width: 1600px) {
   .blocks .c-blocks__item {
-    width: 20.875%;
+    width: 18.875%;
   }
 }
 @media screen and (max-width: 1440px) {
@@ -1158,18 +1183,43 @@ body {
   }
 }
 .blocks .c-blocks__item:first-child {
-  left: 3.125%;
+  margin-left: 5.125%;
   text-align: right;
 }
+.blocks .c-blocks__item:first-child .c-features__icon {
+  margin-left: auto;
+}
 .blocks .c-blocks__item:last-child {
-  right: 3.125%;
+  margin-right: 5.125%;
   text-align: left;
+}
+.blocks .c-blocks__item:last-child .c-features__icon {
+  margin-right: auto;
+}
+.blocks .c-features__item {
+  -ms-flex-direction: column;
+      flex-direction: column;
+}
+.blocks .c-features__icon {
+  width: 45.715%;
+  margin-right: 0;
+}
+@media screen and (max-width: 1600px) {
+  .blocks .c-features__icon {
+    width: 52.985%;
+  }
+}
+@media screen and (max-width: 1440px) {
+  .blocks .c-features__icon {
+    width: 62.63%;
+  }
 }
 .contacts .c-content__wrapper {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 15.625%;
+  margin-top: -48px;
   width: 38.02%;
 }
 .c-features__item {
@@ -1177,14 +1227,13 @@ body {
   display: flex;
   -ms-flex-align: center;
       align-items: center;
-  margin-bottom: 11.389vh;
+  margin-bottom: 10%;
 }
 .c-features__item:last-child {
   margin-bottom: 0;
 }
 .c-features__icon {
-  display: -ms-flexbox;
-  display: flex;
+  position: relative;
   -ms-flex-negative: 0;
       flex-shrink: 0;
   width: 22.59%;
@@ -1199,9 +1248,12 @@ body {
   padding-top: 92.188%;
 }
 .c-features__icon-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: inline-block;
   vertical-align: top;
-  margin: auto;
   font-size: 5.156vw;
   line-height: 1.192;
   font-family: 'Huawei Script', Segoe UI, SegoeUI, Tahoma, Verdana, Arial, sans-serif;
@@ -1261,6 +1313,7 @@ body {
 }
 .c-modal__overlay {
   position: fixed;
+  display: none;
   z-index: 4;
   top: 0;
   left: 0;
@@ -1271,30 +1324,19 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
   border: 0;
   border-collapse: collapse;
-  visibility: hidden;
   overflow: auto;
-  overflow-y: scroll;
-}
-.c-modal__overlay.open {
-  visibility: visible;
-  animation: fadeEff .5s;
-  display: block;
-  animation-fill-mode: forwards;
 }
 .c-modal__overlay.open .c-modal {
-  animation-duration: .5s;
   animation-name: animateUpIn;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
-}
-.c-modal__overlay.out {
-  visibility: hidden;
-  animation: fadeEffOut .5s;
-  animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 .c-modal__overlay.out .c-modal {
-  animation-duration: .5s;
   animation-name: animateUpOut;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 .c-modal__container {
   height: 100%;
@@ -1418,7 +1460,12 @@ body {
   cursor: pointer;
 }
 .c-form__policy input {
-  display: none;
+  position: absolute;
+  opacity: 0;
+  outline: 0;
+  left: 0;
+  top: 0;
+  z-index: 0;
 }
 .c-form__policy input:checked + .c-form__policy-box::before {
   opacity: 1;
@@ -1586,47 +1633,70 @@ textarea.c-form__input {
   color: #2f2f2f;
 }
 .animate-delay {
-  animation-delay: .5s;
+  animation-delay: 1s;
+}
+.anim-in {
+  opacity: 0;
 }
 .animate-up-in {
-  animation-duration: .5s;
   animation-name: animateUpIn;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 .animate-up-out {
-  animation-duration: .5s;
   animation-name: animateUpOut;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 .animate-down-in {
-  animation-duration: .5s;
   animation-name: animateDownIn;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 .animate-down-out {
-  animation-duration: .5s;
   animation-name: animateDownOut;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 .animate-left-in {
-  animation-duration: .5s;
   animation-name: animateLeftIn;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 .animate-left-out {
-  animation-duration: .5s;
   animation-name: animateLeftOut;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 .animate-right-in {
-  animation-duration: .5s;
   animation-name: animateRightIn;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
+  animation-timing-function: ease;
 }
 .animate-right-out {
-  animation-duration: .5s;
   animation-name: animateRightOut;
+  animation-duration: .5s;
   animation-fill-mode: forwards;
+  animation-timing-function: ease;
+}
+.animate-zoom-in {
+  animation-name: animateZoomIn;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.animate-zoom-out {
+  animation-name: animateZoomOut;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 @keyframes animateUpIn {
   0% {
@@ -1705,6 +1775,26 @@ textarea.c-form__input {
   }
   100% {
     transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+@keyframes animateZoomIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes animateZoomOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
     opacity: 0;
   }
 }
@@ -1918,4 +2008,7 @@ textarea.c-form__input {
 .h-fz50 {
   font-size: 50px;
   font-size: 3.125rem;
+}
+.h-tac {
+  text-align: center;
 }
