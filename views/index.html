@@ -2,10 +2,10 @@
 {% block content %}
 <div class="c-bgvideo">
 	<video id="video_backward">
-		<source src="/video/bg-video-backward.mp4" type="video/mp4">
+		<source src="https://224310.selcdn.ru/cdntest/bg-video-backward.mp4" type="video/mp4" preload>
 	</video>
 	<video id="video_forward">
-		<source src="/video/bg-video-forward.mp4" type="video/mp4">
+		<source src="https://224310.selcdn.ru/cdntest/bg-video-forward.mp4" type="video/mp4" preload>
 	</video>
 </div>
 <div class="c-interbg"></div>
@@ -16,7 +16,7 @@
 		<div class="c-content__wrapper">
 			<div class="c-content__inner anim-out" data-anim="left">
 				<div class="anim-in" data-anim="left">
-					<h1 class="c-hero__title">KUNLUN</h1>
+						<img class="c-hero__heading" src="{{ 'kunlun.svg' | img_asset }}" alt="" style="max-width: 565px; width: 74.342%;">
 				</div>
 				<div class="anim-in" data-anim="left" data-anim-delay="500">
 					<p class="c-hero__subtitle">Mission Critical сервер x86, который поддерживает масштабирование <nobr>до&nbsp;32-сокетов</nobr>. Отличается высокой производительностью, масштабируемостью и&nbsp;надежностью, требуемой критически важным приложениям.</p>
@@ -47,7 +47,10 @@
 						</p>
 					</div>
 					<p class="c-content__lead anim-in" data-anim="left" data-anim-delay="1000">
-						Вычислительный блок поддерживает до&nbsp;8&nbsp;цп на&nbsp;шасси и&nbsp;онлайн увеличение количества шасси <nobr>(до&nbsp;4-х)</nobr>	
+						Вычислительный блок поддерживает до&nbsp;8&nbsp;цп на&nbsp;шасси
+						<nobr>и&nbsp;онлайн-увеличение</nobr>
+						количества шасси
+						<nobr>(до&nbsp;4)</nobr>	
 					</p>
 				</div>
 			</div>
@@ -66,7 +69,7 @@
 				</div>
 				<div class="anim-in" data-anim="right" data-anim-delay="500">
 					<p class="c-content__text">
-						Обладает уникальной в&nbsp;индустрии поддержкой <span>функциии горячей замены</span>, а&nbsp;также Intel Xeon E7&nbsp;v3/v4&nbsp;ЦП и&nbsp;DDR4&nbsp;DIMMs
+						Обладает уникальной в&nbsp;индустрии поддержкой <span>функции горячей замены</span>, а&nbsp;также Intel Xeon E7&nbsp;v3/v4&nbsp;ЦП и&nbsp;DDR4&nbsp;DIMMs
 					</p>
 				</div>
 			</div>
@@ -129,7 +132,7 @@
 				</div>
 				<div class="anim-in" data-anim="left" data-anim-delay="500">
 					<p class="c-content__text">
-						Содержит KVM порты для локального обслуживания, отслеживает состояние систем и&nbsp;обеспечивает UID индикацию
+						Содержит KVM-порты для локального обслуживания, отслеживает состояние систем и&nbsp;обеспечивает <nobr>UID-индикацию</nobr>
 					</p>
 				</div>
 			</div>
@@ -160,7 +163,7 @@
 					</div>
 					<div class="anim-in" data-anim="right">
 						<p class="c-content__lead">
-							Блок модулей питания поддерживает до&nbsp;4-х блоков питания и&nbsp;2+2 резервирования
+							Блок модулей питания поддерживает до&nbsp;4 блоков питания и&nbsp;2+1 резервирования
 						</p>
 					</div>
 				</div>
@@ -176,11 +179,11 @@
 					<img class="c-content__icon" src="{{ 'content-icon-8.svg' | img_asset }}" width="151" height="150" alt="">
 				</div>
 				<div class="anim-in" data-anim="left">
-					<p class="c-content__title">LСD дисплей</p>
+					<p class="c-content__title">LСD-дисплей</p>
 				</div>
 				<div class="anim-in" data-anim="left" data-anim-delay="500">
 					<p class="c-content__text">
-						Сенсорный 8-ми дюймовый LCD дисплей <br>отображает рабочий статус сервера в&nbsp;реальном времени, обеспечивает ежедневное <br>инспектирование и&nbsp;онлайн обслуживание
+						Сенсорный 8 дюймовый LCD-дисплей <br>отображает рабочий статус сервера в&nbsp;реальном времени, обеспечивает ежедневное инспектирование и&nbsp;онлайн обслуживание
 					</p>
 				</div>
 			</div>
@@ -193,12 +196,12 @@
 			<div class="c-content__inner anim-out" data-anim="left">
 				<div class="anim-in" data-anim="left">
 					<p class="c-content__lead">
-						Сервер Kunlun для критически важных приложений соответствует требованиям критически важных сред к&nbsp;масштабируемости и&nbsp;производительности, что позволяет сократить общие затраты
+						Сервер Kunlun для критически важных приложений соответствует требованиям критически важных сред к&nbsp;масштабируемости и&nbsp;производительности, что позволяет сократить общие затраты.
 					</p>
 				</div>
 				<div class="c-btn__wrapper c-btn__wrapper--lg anim-in" data-anim="left" data-anim-delay="500">
 					<a href="#" class="c-btn c-btn--request">Оставить заявку</a>
-					<a href="#" class="c-btn c-btn--specification">Скачать спецификации</a>
+					<a href="http://e.huawei.com/ru/marketing-material/onLineView?MaterialID={79FFC87B-FBBB-4B86-BA37-738B4A6C629F}" target="_blank" class="c-btn c-btn--specification">Скачать спецификации</a>
 				</div>
 			</div>
 		</div>

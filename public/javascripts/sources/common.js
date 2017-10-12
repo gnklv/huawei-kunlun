@@ -2,20 +2,18 @@
 
   var defaults = {
     sectionContainer: "section",
-    waitTime: 0,
     pagination: true,
     keyboard: true,
     loop: false,
     videoF: null,
     videoB: null
-	};
+  };
 
-  $.fn.page_scroll = function(options){
+  $.fn.page_scroll = function(options) {
     var settings = $.extend({}, defaults, options),
         el = $(this),
-        videoF = settings.videoF,
-        videoB = settings.videoB,
-        sections = $(settings.sectionContainer),
+        { videoF, videoB, sectionContainer } = settings,
+        sections = $(sectionContainer),
         total = sections.length,
         paginationList = "",
         canScroll = false,
@@ -23,13 +21,13 @@
         videoDuration = videoF.duration;
 
     $.fn.moveDown = function() {
-      var index = $(settings.sectionContainer +".active").data("index"),
-		      current = $(settings.sectionContainer + "[data-index='" + index + "']"),
-		      next = $(settings.sectionContainer + "[data-index='" + (index + 1) + "']");
+      var index = $(sectionContainer +".active").data("index"),
+          current = $(sectionContainer + "[data-index='" + index + "']"),
+          next = $(sectionContainer + "[data-index='" + (index + 1) + "']");
 
       if(next.length < 1) {
         if (settings.loop == true) {
-          next = $(settings.sectionContainer + "[data-index='1']");
+          next = $(sectionContainer + "[data-index='1']");
         } else {
           return
         }
@@ -59,13 +57,13 @@
     }
 
     $.fn.moveUp = function() {
-      var index = $(settings.sectionContainer +".active").data("index"),
-		      current = $(settings.sectionContainer + "[data-index='" + index + "']"),
-		      next = $(settings.sectionContainer + "[data-index='" + (index - 1) + "']");
+      var index = $(sectionContainer +".active").data("index"),
+          current = $(sectionContainer + "[data-index='" + index + "']"),
+          next = $(sectionContainer + "[data-index='" + (index - 1) + "']");
 
       if(next.length < 1) {
         if (settings.loop == true) {
-          next = $(settings.sectionContainer + "[data-index='"+total+"']");
+          next = $(sectionContainer + "[data-index='"+total+"']");
         } else {
           return
         }
@@ -95,16 +93,16 @@
     }
 
     $.fn.moveTo = function(page_index) {
-      var index = $(settings.sectionContainer +".active").data("index"),
-          current = $(settings.sectionContainer + ".active"),
-      		next = $(settings.sectionContainer + "[data-index='" + page_index + "']");
+      var index = $(sectionContainer +".active").data("index"),
+          current = $(sectionContainer + ".active"),
+          next = $(sectionContainer + "[data-index='" + page_index + "']");
 
       if(next.length > 0) {
         contentOut(current, current.data('index'));
         $('.c-interbg').fadeIn(300);
-        $(videoF).hide();
-        $(videoB).hide();
-        current.find('.c-content__bg').hide();
+        $(videoF).fadeOut();
+        $(videoB).fadeOut();
+        current.find('.c-content__bg').fadeIn();
         videoF.currentTime = next.data('time') + 1;
         videoB.currentTime = videoDuration - next.data('time');
         setTimeout(function() {
@@ -204,7 +202,7 @@
       }
     });
 
-    var firstElem = $(settings.sectionContainer + "[data-index='1']");
+    var firstElem = $(sectionContainer + "[data-index='1']");
 
     videoF.play();
     var playing = setInterval(function() {
@@ -229,8 +227,8 @@
           e.preventDefault();
 
           var page_index = $(this).data("index");
-          var current = $(settings.sectionContainer + ".active"),
-              next = $(settings.sectionContainer + "[data-index='" + (page_index) + "']");
+          var current = $(sectionContainer + ".active"),
+              next = $(sectionContainer + "[data-index='" + (page_index) + "']");
 
           switch(page_index - current.data('index')) {
             case 1:
@@ -294,17 +292,43 @@
 }(window.jQuery);
 
 $(document).ready(function() {
-	var videoForward = document.getElementById('video_forward'),
+  var videoForward = document.getElementById('video_forward'),
       videoBackward = document.getElementById('video_backward');
+  var forwardFlag, backwardFlag, videoFlag;
 
-	if (videoForward) videoForward.addEventListener('loadedmetadata', init_video_f);
+  if (videoForward) videoForward.addEventListener('loadedmetadata', init_video_f)
+  if (videoBackward) videoBackward.addEventListener('loadedmetadata', init_video_f)
 
-  function init_video_f() {
-    videoForward.removeEventListener('loadedmetadata', init_video_f);
-    console.log(1);
+  function init_video_f(event) {
+
+    if (event.target === videoForward) {
+      forwardFlag = true;
+    }
+
+    if (event.target === videoBackward) {
+      backwardFlag = true;
+    }
+
+    if (forwardFlag && backwardFlag) {
+      if (!videoFlag) {
+        initAll();
+        videoFlag = true;
+      }
+    }
+  }
+
+  setTimeout(() => {
+    if (!videoFlag) {
+      initAll();
+      videoFlag = true;
+    }
+  }, 1000)
+
+  function initAll() {
     $('.c-loader').fadeOut();
     $(videoForward).show();
     $('html, body').addClass('overflow');
+
     $('.c-content').page_scroll({
       sectionContainer: "section.l-section",
       videoF: videoForward,

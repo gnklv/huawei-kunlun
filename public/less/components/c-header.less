@@ -11,4 +11,45 @@
 		height: 100%;
 		padding: 0 3.125%;
 	}
+
+	&__col {
+		display: flex;
+		flex-direcrion: row;
+		flex-wrap: nowrap;
+		align-items: center;
+	}
+	
+	&__logo {
+		width: 26.065%;
+		margin-right: 3.489vw;
+
+		img {
+			width: 100%;
+		}
+	}
+
+	&__desc {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		align-items: center;
+		flex-shrink: 0;
+		
+		&-name {
+			padding-right: round(20/54em, 3);
+			border-right: 2px solid #393a3e;
+			font-size: 2.813vw;
+			line-height: 1;
+			font-weight: 300;
+			letter-spacing: -.025em;
+			color: #393a3e;
+		}
+
+		&-text {
+			margin-left: round(20/19em, 3);
+			.fz(19, 23);
+			font-weight: 300;
+			color: #393a3e;
+		}
+	}
 }
