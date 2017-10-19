@@ -19,6 +19,10 @@
 		background-position: center;
 		background-size: contain;
 
+		@media screen and (max-width: @screen-md-max) {
+			margin-right: 20px;
+		}
+
 		&::before {
 			content: '';
 			display: block;
@@ -38,11 +42,20 @@
 			letter-spacing: -.015em;
 			color: @base-color;
 
+			@media screen and (max-width: @screen-md-max) {
+				.fz(62, 74);
+			}
+
 			span {
 				margin: 0 10px;
 				font-size: 2.344vw;
 				.lh(54, 45);
 				letter-spacing: 0;
+
+				@media screen and (max-width: @screen-md-max) {
+					margin: 0 5px;
+					.fz(28, 34);
+				}
 			}
 		}
 	}

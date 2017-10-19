@@ -5,3 +5,42 @@
 .h-tac {
 	text-align: center;
 }
+
+.h-hidden {
+
+	&--md-max {
+		@media screen and (max-width: @screen-md-max) {
+			display: none;
+		}
+	}
+
+	&--sm-max {
+		@media screen and (max-width: @screen-sm-max) {
+			display: none;
+		}
+	}
+
+	&--sm {
+		@media screen and (max-width: @screen-sm) {
+			display: none;
+		}
+	}
+
+	&--xs-max {
+		@media screen and (max-width: @screen-xs-max) {
+			display: none;
+		}
+	}
+
+}
+
+.h-show {
+
+	&--md-max {
+		display: none;
+
+		@media screen and (max-width: @screen-md-max) {
+			display: block;
+		}
+	}
+}

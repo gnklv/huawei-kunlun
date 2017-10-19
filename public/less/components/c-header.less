@@ -4,6 +4,14 @@
 	height: 96px;
 	background-color: #fff;
 
+	@media screen and (max-width: @screen-md-max) {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 70px;
+	}
+
 	&__inner {
 		display: flex;
 		justify-content: space-between;
@@ -43,6 +51,10 @@
 			font-weight: 300;
 			letter-spacing: -.025em;
 			color: #393a3e;
+
+			@media screen and (max-width: @screen-md-max) {
+				font-size: 40px;
+			}
 		}
 
 		&-text {
@@ -50,6 +62,15 @@
 			.fz(19, 23);
 			font-weight: 300;
 			color: #393a3e;
+
+			@media screen and (max-width: @screen-md-max) {
+				margin-left: round(13/16em, 3);
+				.fz(16, 18);
+			}
+
+			@media screen and (max-width: @screen-xs) {
+				.fz(14, 16);
+			}
 		}
 	}
 }

@@ -2,8 +2,21 @@
 	display: none;
 	width: 100%;
 	height: 100%;
+	overflow: hidden;
 
 	&.active {
 		display: block;
 	}
+
+	@media screen and (max-width: @screen-md-max) {
+		position: relative;
+		display: block;
+		background-color: #b5feff;
+
+		&.fixed {
+			.c-content__mob-bg {
+				position: fixed !important;
+			}
+		}
+	} 
 }

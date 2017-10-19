@@ -16,6 +16,10 @@
 		justify-content: space-between;
 		flex-wrap: nowrap;
 
+		@media screen and (max-width: @screen-sm) {
+			display: block;
+		}
+
 		&-col {
 			flex-grow: 0;
 			flex-shrink: 0;
@@ -124,6 +128,10 @@
 
 		&:hover {
 			background-color: darken(#9b0f15, 10%)
+		}
+
+		@media screen and (max-width: @screen-sm) {
+			width: 100%;
 		}
 	}
 }

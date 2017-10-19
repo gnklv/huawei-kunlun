@@ -6,12 +6,13 @@
     keyboard: true,
     loop: false,
     videoF: null,
-    videoB: null
+    videoB: null,
+    responsiveFallback: false,
   };
 
   $.fn.page_scroll = function(options) {
     var settings = $.extend({}, defaults, options),
-        el = $(this),
+        el = this,
         { videoF, videoB, sectionContainer } = settings,
         sections = $(sectionContainer),
         total = sections.length,
@@ -179,6 +180,45 @@
       }
     }
 
+    function responsive() {
+      //start modification
+      var valForTest = false;
+      var typeOfRF = typeof settings.responsiveFallback
+
+      if(typeOfRF == "number"){
+        valForTest = $(window).width() < settings.responsiveFallback;
+      }
+      if(typeOfRF == "boolean"){
+        valForTest = settings.responsiveFallback;
+      }
+      if(typeOfRF == "function"){
+        valFunction = settings.responsiveFallback();
+        valForTest = valFunction;
+        typeOFv = typeof valForTest;
+        if(typeOFv == "number"){
+          valForTest = $(window).width() < valFunction;
+        }
+      }
+
+      //end modification
+      if (valForTest) {
+        $("body").addClass("disabled-onepage-scroll");
+        $('html, body').removeClass('overflow');
+        $(document).unbind('mousewheel DOMMouseScroll MozMousePixelScroll');
+      } else {
+        if($("body").hasClass("disabled-onepage-scroll")) {
+          $("body").removeClass("disabled-onepage-scroll");
+          el.moveTo(1);
+        }
+
+        $(document).bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(event) {
+          event.preventDefault();
+          var delta = event.originalEvent.wheelDelta || -event.originalEvent.detail;
+          init_scroll(event, delta);
+        });
+      }
+    }
+
     function init_scroll(event, delta) {
         var deltaOfInterest = delta;
 
@@ -244,12 +284,21 @@
       });
     }
 
+    $('body').removeClass('disabled-page-scroll');
+
     $(document).bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(event) {
       event.preventDefault();
       var delta = event.originalEvent.wheelDelta || -event.originalEvent.detail;
       init_scroll(event, delta);
     });
 
+    if(settings.responsiveFallback != false) {
+      $(window).resize(function() {
+        responsive();
+      });
+
+      responsive();
+    }
 
     if(settings.keyboard == true) {
       $(document).keyup(function(e) {
@@ -291,50 +340,206 @@
 
 }(window.jQuery);
 
-$(document).ready(function() {
-  var videoForward = document.getElementById('video_forward'),
-      videoBackward = document.getElementById('video_backward');
-  var forwardFlag, backwardFlag, videoFlag;
+(function($){
 
-  if (videoForward) videoForward.addEventListener('loadedmetadata', init_video_f)
-  if (videoBackward) videoBackward.addEventListener('loadedmetadata', init_video_f)
+  var methods = {
+    init: function(options) {
 
-  function init_video_f(event) {
+      var settings = $.extend({
+        'anchor': 'top',
+        'classIn': 'class',
+        'classOut': 'class'
+      }, options);
 
-    if (event.target === videoForward) {
-      forwardFlag = true;
-    }
+      $('body').addClass('mob-scroll-init');
 
-    if (event.target === videoBackward) {
-      backwardFlag = true;
-    }
+      return this.each(function() {
+        var $this = $(this);
 
-    if (forwardFlag && backwardFlag) {
-      if (!videoFlag) {
-        initAll();
-        videoFlag = true;
+        $(window).on('scroll', function() {
+          methods.action($this, settings);
+        });
+
+
+      });
+    },
+    disable: function() {
+      $('body').removeClass('mob-scroll-init');
+
+      return this.each(function() {
+        var $this = $(this);
+
+        $(window).off('scroll');
+
+      });
+    },
+    action: function(el, settings) {
+      switch (settings.anchor) {
+        case 'top':
+          if ($(window).scrollTop() > el.offset().top) {
+            methods.actionIn(el, settings);
+          } else {
+            methods.actionOut(el, settings);
+          }
+          break;
+        case 'center':
+          if ($(window).scrollTop() + $(window).height() / 2 > el.offset().top) {
+            methods.actionIn(el, settings);
+          } else {
+            methods.actionOut(el, settings);
+          }
+          break;
+        case 'bottom':
+          if ($(window).scrollTop() + $(window).height() * .75 > el.offset().top) {
+            methods.actionIn(el, settings);
+          } else {
+            methods.actionOut(el, settings);
+          }
+          break;
+      }
+    },
+    actionIn: function(el, settings) {
+      if (!el.hasClass(settings.classIn)) {
+        el.addClass(settings.classIn);
+        el.removeClass(settings.classOut)
+      }
+    },
+    actionOut: function(el, settings) {
+      if (el.hasClass(settings.classIn)) {
+        el.removeClass(settings.classIn);
+        el.addClass(settings.classOut);
       }
     }
   }
 
-  setTimeout(() => {
-    if (!videoFlag) {
-      initAll();
-      videoFlag = true;
+  $.fn.mob_scroll = function(method) {
+
+    if ( methods[method] ) {
+      return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+    } else if ( typeof method === 'object' || ! method ) {
+      return methods.init.apply( this, arguments );
+    } else {
+      $.error( 'Метод с именем ' +  method + ' не существует для jQuery.mob_scroll' );
+    } 
+
+  };
+
+})(jQuery);
+
+$(document).ready(function() {
+  if ($(window).width() > 1199) {
+    var videoForward = document.getElementById('video_forward'),
+        videoBackward = document.getElementById('video_backward');
+    var forwardFlag, backwardFlag, videoFlag;
+
+
+
+    if (videoForward) videoForward.addEventListener('loadedmetadata', init_video_f)
+    if (videoBackward) videoBackward.addEventListener('loadedmetadata', init_video_f)
+
+    function init_video_f(event) {
+
+      if (event.target === videoForward) {
+        forwardFlag = true;
+      }
+
+      if (event.target === videoBackward) {
+        backwardFlag = true;
+      }
+
+      if (forwardFlag && backwardFlag) {
+        if (!videoFlag) {
+          initAll();
+          videoFlag = true;
+        }
+      }
     }
-  }, 1000)
 
-  function initAll() {
-    $('.c-loader').fadeOut();
-    $(videoForward).show();
-    $('html, body').addClass('overflow');
+    setTimeout(() => {
+      if (!videoFlag) {
+        initAll();
+        videoFlag = true;
+      }
+    }, 1000);
 
-    $('.c-content').page_scroll({
-      sectionContainer: "section.l-section",
-      videoF: videoForward,
-      videoB: videoBackward
+    function initAll() {
+      $('.c-loader').fadeOut();
+      $(videoForward).show();
+      $('html, body').addClass('overflow');
+
+      $('.c-content').page_scroll({
+        sectionContainer: "section.l-section",
+        videoF: videoForward,
+        videoB: videoBackward,
+        responsiveFallback: 1199
+      });
+    }
+  } else {
+    $('.anim-in-mob').mob_scroll({
+      anchor: 'bottom',
+      classIn: 'animate-left-in',
+      classOut: 'animate-left-out'
     });
   }
+
+  $(window).resize(function() {
+    if ($(window).width() > 1199) {
+      var videoForward = document.getElementById('video_forward'),
+          videoBackward = document.getElementById('video_backward');
+      var forwardFlag, backwardFlag, videoFlag;
+
+      if ($('body').hasClass('mob-scroll-init')) {
+        $('.anim-in-mob').mob_scroll('disable');
+      }
+
+      if (videoForward) videoForward.addEventListener('loadedmetadata', init_video_f)
+      if (videoBackward) videoBackward.addEventListener('loadedmetadata', init_video_f)
+
+      function init_video_f(event) {
+
+        if (event.target === videoForward) {
+          forwardFlag = true;
+        }
+
+        if (event.target === videoBackward) {
+          backwardFlag = true;
+        }
+
+        if (forwardFlag && backwardFlag) {
+          if (!videoFlag) {
+            initAll();
+            videoFlag = true;
+          }
+        }
+      }
+
+      setTimeout(() => {
+        if (!videoFlag) {
+          initAll();
+          videoFlag = true;
+        }
+      }, 1000);
+
+      function initAll() {
+        $('.c-loader').fadeOut();
+        $(videoForward).show();
+        $('html, body').addClass('overflow');
+
+        $('.c-content').page_scroll({
+          sectionContainer: "section.l-section",
+          videoF: videoForward,
+          videoB: videoBackward,
+          responsiveFallback: 1199
+        });
+      }
+    } else {
+      $('.anim-in-mob').mob_scroll({
+        anchor: 'bottom',
+        classIn: 'animate-left-in',
+        classOut: 'animate-left-out'
+      });
+    }   
+  });
 
   var modalBtn = $('.c-btn--request'),
       modalClose = $('.c-modal__close'),

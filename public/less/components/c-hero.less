@@ -1,9 +1,22 @@
 .c-hero {
-	
+
+	@media screen and (max-width: @screen-md-max) {
+		background: url('../images/hero-mountains-bg.jpg') no-repeat center 70px;
+		background-size: cover;
+	}
+
+	@media screen and (max-width: @screen-xs-max) {
+		background-size: auto;
+	}
+
 	&__heading {
 		max-width: 565px;
     width: 74.342%;
     margin-bottom: 6.579%;
+
+    @media screen and (max-width: @screen-md-max) {
+    	width: 47.342%;
+    }
 	}
 
 	&__title {
@@ -22,9 +35,38 @@
 		@media screen and (max-width: 1440px) {
 			.fz(18, 24);
 		}
-
+		
+		@media screen and (max-width: @screen-sm-max) {
+			margin-bottom: 20px;
+			.fz(16, 20);
+		}
+ 
 		&:last-of-type {
 			margin-bottom: 0;
+		}
+	}
+
+	@media screen and (max-width: @screen-md-max) {
+		.c-content__mob-bg {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image: url('../images/mob-img-1-2.png');
+			background-repeat: no-repeat;
+			background-position-x: right;
+			background-position-y: top;
+			background-size: contain;
+		}
+	}
+
+	@media screen and (max-width: @screen-xs-max) {
+		.c-content__mob-bg {
+			background-image: url('../images/mob-img-1.png');
+			background-position-x: center;
+			background-position-y: 70px;
+			background-size: auto;
 		}
 	}
 
@@ -35,5 +77,42 @@
 		transform: translateY(-50%);
 		margin-top: -48px;
 		width: 39.583%;
+
+		@media screen and (max-width: @screen-md-max) {
+			position: static;
+			transform: translate(0, 0);
+			max-width: 970px;
+			width: 100%;
+			height: 615px;
+			margin-top: 0;
+			margin: 0 auto;
+			padding-right: 46.875%;
+			padding-top: 70px;
+			display: flex;
+			align-items: center;
+		}
+
+		@media screen and (max-width: @screen-xs-max) {
+			max-width: 480px;
+			width: 100%;
+			height: 410px;
+			padding-top: 480px;
+			height: auto;
+			padding-right: 0;
+			display: block;
+		}
+
+		.c-content__inner {
+			
+			@media screen and (max-width: @screen-sm-max) {
+				padding-left: 30px;
+			}
+
+			@media screen and (max-width: @screen-xs-max) {
+				padding-left: 15px;
+				background-image: none;
+				background-color: #cef6fe;
+			}
+		}
 	}
 }

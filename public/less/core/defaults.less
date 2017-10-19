@@ -4,12 +4,17 @@ html {
 }
 
 body {
+	position: relative;
 	font-family: @base-font;
 	color: @base-color;
 	line-height: @base-line-height;
 	font-style: normal;
 	font-weight: @base-font-weight;
 	-webkit-font-smoothing: antialiased;
+
+	@media screen and (max-width: @screen-md-max) {
+		background-color: #b5feff;
+	}
 }
 
 .overflow {

@@ -25,6 +25,16 @@
 
 .anim-in {
 	opacity: 0;
+
+	@media screen and (max-width: @screen-md-max) {
+		opacity: 1;
+	}
+
+	&-mob {
+		@media screen and (max-width: @screen-md-max) {
+			opacity: 0;
+		}
+	}
 }
 
 .animate-up-in {.animInit(animateUpIn, ease)}

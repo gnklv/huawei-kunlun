@@ -7,6 +7,10 @@
 	height: 100%;
 	display: flex;
 	background-image: linear-gradient(to bottom, #b1dbf1, #d9ffff);
+	
+	@media screen and (max-width: @screen-md-max) {
+		display: none;
+	}
 
 	img {
 		margin: auto;
