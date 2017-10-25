@@ -44,11 +44,13 @@
 
       videoF.play();
       var playing = setInterval(function() {
+        if (videoF.currentTime >= next.data('time') - 2) {
+          contentIn(next, next.data('index'));
+        }
         if (videoF.currentTime >= next.data('time')) {
           videoF.pause();
           videoB.currentTime = videoDuration - next.data('time');
           next.find('.c-content__bg').show();
-          contentIn(next, next.data('index'));
           canScroll = true;
           clearInterval(playing);
         }
@@ -80,11 +82,13 @@
 
       videoB.play();
       var playing = setInterval(function() {
+        if (videoB.currentTime >= videoDuration - next.data('time') - 2) {
+          contentIn(next, next.data('index'));
+        }
         if (videoB.currentTime >= videoDuration - next.data('time')) {
           videoB.pause();
           videoF.currentTime = next.data('time') + 1;
           next.find('.c-content__bg').show();
-          contentIn(next, next.data('index'));
           canScroll = true;
           clearInterval(playing);
         }
@@ -202,13 +206,20 @@
 
       //end modification
       if (valForTest) {
-        $("body").addClass("disabled-onepage-scroll");
+        $("body").removeClass("init-page-scroll");
         $('html, body').removeClass('overflow');
         $(document).unbind('mousewheel DOMMouseScroll MozMousePixelScroll');
+
+        $.each($('.anim-out'), function() {
+          var outDir = $(this).attr('data-anim');
+
+          if ($(this).hasClass(`animate-${outDir}-out`)) {
+            $(this).removeClass(`animate-${outDir}-out`);
+          }
+        });
       } else {
-        if($("body").hasClass("disabled-onepage-scroll")) {
-          $("body").removeClass("disabled-onepage-scroll");
-          el.moveTo(1);
+        if(!$("body").hasClass("init-page-scroll")) {
+          $("body").addClass("init-page-scroll");
         }
 
         $(document).bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(event) {
@@ -246,10 +257,12 @@
 
     videoF.play();
     var playing = setInterval(function() {
+      if (videoF.currentTime >= firstElem.data('time') - 1) {
+        contentIn(firstElem);
+      }
       if (videoF.currentTime >= firstElem.data('time')) {
         videoF.pause();
         firstElem.find('.c-content__bg').show();
-        contentIn(firstElem);
         canScroll = true;
         clearInterval(playing);
       }
@@ -284,7 +297,7 @@
       });
     }
 
-    $('body').removeClass('disabled-page-scroll');
+    $('body').addClass('init-page-scroll');
 
     $(document).bind('mousewheel DOMMouseScroll MozMousePixelScroll', function(event) {
       event.preventDefault();
@@ -365,6 +378,13 @@
     },
     disable: function() {
       $('body').removeClass('mob-scroll-init');
+
+      $.each($('.anim-in-mob'), function() {
+
+        if ($(this).hasClass(`animate-left-out`)) {
+          $(this).removeClass(`animate-left-out`);
+        }
+      });
 
       return this.each(function() {
         var $this = $(this);
@@ -467,13 +487,15 @@ $(document).ready(function() {
       $(videoForward).show();
       $('html, body').addClass('overflow');
 
-      $('.c-content').page_scroll({
-        sectionContainer: "section.l-section",
-        videoF: videoForward,
-        videoB: videoBackward,
-        responsiveFallback: 1199
-      });
-    }
+      if (!$('body').hasClass('init-page-scroll')) {
+        $('.c-content').page_scroll({
+          sectionContainer: "section.l-section",
+          videoF: videoForward,
+          videoB: videoBackward,
+          responsiveFallback: 1199
+        });
+      }
+  }
   } else {
     $('.anim-in-mob').mob_scroll({
       anchor: 'bottom',
@@ -525,12 +547,14 @@ $(document).ready(function() {
         $(videoForward).show();
         $('html, body').addClass('overflow');
 
-        $('.c-content').page_scroll({
-          sectionContainer: "section.l-section",
-          videoF: videoForward,
-          videoB: videoBackward,
-          responsiveFallback: 1199
-        });
+        if (!$('body').hasClass('init-page-scroll')) {
+          $('.c-content').page_scroll({
+            sectionContainer: "section.l-section",
+            videoF: videoForward,
+            videoB: videoBackward,
+            responsiveFallback: 1199
+          });
+        }
       }
     } else {
       $('.anim-in-mob').mob_scroll({

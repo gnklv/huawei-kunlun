@@ -350,8 +350,8 @@
 
 	.c-content__icon {
 		margin-right: 30px;
-		width: 125px;
-		height: 150px;
+    width: 6.511vw;
+    height: 7.813vw;
 
 		@media screen and (max-width: @screen-md-max) {
 			margin-right: 0;
@@ -367,6 +367,14 @@
 
 		@media screen and (max-width: @screen-xs-max) {
 			padding-left: 15px;
+		}
+
+		@media (min-width: @screen-md-max) and (max-height: 565px) {
+			padding: 34px 60px;
+			background-image: url('../images/bg-memory.png');
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: cover;
 		}
 	}
 }
@@ -410,6 +418,13 @@
 		background-color: #dbffff;
 	}
 
+	.c-content__wrapper {
+		@media screen and (max-width: @screen-md-max) {
+			padding-right: 480px;
+			padding-left: 0;
+		}
+	}
+
 	.c-content__mob-bg {
 		@media screen and (max-width: @screen-md-max) {
 			position: absolute;
@@ -432,8 +447,6 @@
 	}
 
 	.c-content__wrapper {
-		padding-left: 0;
-		padding-right: 480px;
 
 		@media screen and (max-width: @screen-xs-max) {
 			max-width: 480px;
@@ -555,7 +568,6 @@
 			flex-shrink: 0;
 			border-radius: 50%;
 			padding: 30px;
-			background-color: rgba(255,255,255,.9);
 
 			.c-content__lead {
 				text-align: center;
@@ -568,7 +580,7 @@
 			align-items: center;
 			height: auto;
 			padding: 0;
-			background-color: transparent;
+			background-image: none !important;
 
 			.c-content__lead {
 				text-align: inherit;
@@ -583,6 +595,13 @@
 				margin-left: 0;
 				margin-bottom: 10%;
 				text-align: left;
+			}
+
+			@media screen and (max-width: 1280px) {
+				background-image: url('../images/features-icon-1-md.png');
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: cover;
 			}
 
 			.c-features__icon {
@@ -616,6 +635,13 @@
 		&:last-child {
 			margin-right: 5.125%;
 			text-align: left;
+
+			@media screen and (max-width: 1280px) {
+				background-image: url('../images/features-icon-2-md.png');
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: cover;
+			}
 
 			.c-features__icon {
 				margin-right: auto;
